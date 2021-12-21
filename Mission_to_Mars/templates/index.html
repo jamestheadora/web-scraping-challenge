@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>It is all about Mars</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+      <div class="btn btn-sm btn-outline-secondary">
+        <h1>Mission to Mars</h1>
+        <p></p>
+        <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data!</a></p>
+      </div>
+
+      <div class="row" id="mars-news">
+        <div class="col-md-12">
+          <div class="media">
+            <div class="media-body">
+              <h2>Latest Mars News</h2>
+              <h4 class="media-heading">{{ mdata.news_title }}</h4>
+              <p>{{ mdata.news_content }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <!-- Section for Featured Image and Facts table -->
+      <div class="row" id="mars-featured-image">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+          <h2>Featured Mars Image</h2>
+          <!-- if images is False/None/non-existent, then default to error message -->
+          <img
+            src="{{mdata.featured_image}}"
+            class="img-responsive"
+            alt="Responsive image"
+          />
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <!-- Mars Facts -->
+          <div class="table" id="mars-facts">
+            <h4>Mars Facts</h4>
+            {{ mdata.mars_facts | safe }}
+          </div>
+        </div>
+        
+      <div class="box-shadow">
+        
+       <div class="container-fluid"> 
+        <div class="page-header">
+          <h2 class="text-ceter">Mars Hemispheres</h2>
+        </div>
+        <div class="row">
+          {% for hemisphere in mdata.mars_hemispheres %}
+          <div class="card mb-4 box-shadow col-sm">
+            <img class="card-img-top" src="{{hemisphere.img_url}}" data-holder-rendered="true">
+            <div class="card-body">
+              <p class="card-text">{{hemisphere.title}}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+       </div>
+
+          </div>
+    </div>
+  </div>
+  </body>
+
+</html>
