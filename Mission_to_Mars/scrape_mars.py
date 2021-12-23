@@ -3,22 +3,22 @@ from bs4 import BeautifulSoup as soup
 import pandas as pd
 from webdriver_manager.chrome import ChromeDriverManager
 
-########################################################
+#####################################
 # Main function to scrape Mars data
-########################################################
+#####################################
 def scrape_info():
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
 
-    #Get the latest news
+    #Get latest news
     latest_news = get_latest_news(browser)
 
-    #add latest news to the mars_data dict
+    #Add latest news to mars_data dict
     mars_data = {}
     mars_data["news_title"] = latest_news[0]
     mars_data["news_content"] = latest_news[1]
 
-    #Get the featured image and add it to mars_data dict
+    #Get featured image and add it to mars_data dict
     featured_image = get_featured_img(browser)
     mars_data[featured_image[0]] = featured_image[1]
 
@@ -32,9 +32,9 @@ def scrape_info():
 
     return mars_data
 
-########################################################
-# Function to get the latest news on mars
-########################################################
+####################################
+# Function to get latest news on Mars
+####################################
 def get_latest_news(browser):
     # Visit the Mars news site
     url = 'https://redplanetscience.com/'
@@ -59,9 +59,9 @@ def get_latest_news(browser):
 
     return latest_news
 
-########################################################
+#########################################
 # Function to get the featured image
-########################################################
+#########################################
 def get_featured_img(browser):
     # Visit URL
     url = 'https://spaceimages-mars.com'
@@ -84,9 +84,9 @@ def get_featured_img(browser):
 
     return featured_image
 
-########################################################
-# Function to get the mars facts
-########################################################
+############################################
+# Function to get mars facts
+############################################
 def get_mars_facts(browser):
     galaxy_url = "https://galaxyfacts-mars.com/"
 
@@ -103,9 +103,9 @@ def get_mars_facts(browser):
 
     return mars_facts
 
-########################################################
+##########################################
 # Function to get mars hemisphere images
-########################################################
+##########################################
 def get_mars_hemisphere_images(browser):
     url = 'https://marshemispheres.com/'
 
@@ -117,24 +117,24 @@ def get_mars_hemisphere_images(browser):
     hemisphere_images = []
     #print(links)
 
-    #Loop through the divs
+    #Loop through divs
     for div in divs:
         
-        #Fing the link to navigate
+        #Fing link to navigate
         ref_url = div.find('a')['href']
         
         #Construct the complete URL
         hem_url = url + ref_url
         
-        #Navigate to the constructed URL
+        #Navigate to constructed URL
         browser.visit(hem_url)
         hem_html = browser.html  
         hem_soup = soup(hem_html, 'html.parser')
         
-        #Get the title
+        #Get title
         title  = hem_soup.find('h2', class_='title').text
         
-        #Get the image URL
+        #Get image URL
         div = hem_soup.find('div', class_= 'downloads')
         image_url = div.find('a')['href']
         full_image_url = url + image_url
@@ -144,7 +144,7 @@ def get_mars_hemisphere_images(browser):
         hemisphere_dict["title"] = title
         hemisphere_images.append(hemisphere_dict)
         
-        #Click the back button on the browser
+        #Click back button on browser
         browser.back()
         
     return hemisphere_images
